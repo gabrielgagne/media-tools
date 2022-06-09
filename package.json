@@ -1,0 +1,24 @@
+{
+  "name": "emby-rename",
+  "version": "1.0.0",
+  "description": "Util to rename media files",
+  "scripts": {
+    "build": "echo \"Nothing to build\"",
+    "ci": "echo \"Nothing to build or test\"",
+    "start": "npm link && emby-rename"
+  },
+  "bin": {
+    "emby-rename": "bin/emby-rename.js"
+  },
+  "author": "gabriel.gagne@wolterskluwer.com",
+  "keywords": [
+    "cumulus",
+    "iFirmTax",
+    "iFirm"
+  ],
+  "dependencies": {
+    "fs-extra": "^10.1.0",
+    "inquirer": "^8.2.4",
+    "open": "^8.4.0"
+  }
+}
