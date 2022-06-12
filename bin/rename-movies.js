@@ -4,7 +4,7 @@ const path = require('path');
 const inquirer = require('inquirer');
 const fileExtensionRegex = /(?:\.([^.]+))?$/;
 const standardFileRegex = /^(?<name>[\w\s]+).+(?<year>\(\d+\))(?<tmdbid>\s\[tmdbid=\d+\])?.*(?<extension>\.([^.]+))$/;
-const { replaceLastFolderName, getMatchingSubFile, fileWithoutExtension } = require('./utils');
+const { replaceLastFolderName, getMatchingSubFile, fileWithoutExtension, removeLastSubpath } = require('./utils');
 
 
 const getMovieFileRenameCfg = async (fileName) => {
@@ -71,7 +71,7 @@ const renameMovieFiles = async (folderPath, renameParent = false) => {
       const oldSubPath = getMatchingSubFile(fullOldPath);
       const subExists = fs.existsSync(oldSubPath);
       const newSubPath = getMatchingSubFile(fullNewPath);
-      const newFolderPath = renameParent ? replaceLastFolderName(folderPath, fileWithoutExtension(renameCfg.newName)) : '';
+      const newFolderPath = renameParent ? replaceLastFolderName(removeLastSubpath(folderPath), fileWithoutExtension(renameCfg.newName)) : '';
 
       const { confirm } = await inquirer.prompt(
         [
@@ -99,6 +99,11 @@ const renameMovieFiles = async (folderPath, renameParent = false) => {
       );
 
       if (confirm.toLowerCase() === 'y') {
+        // tslint:disable-next-line
+        console.log(fullOldPath);
+        console.log('------------------------');
+        console.log(fullNewPath);
+        console.log('------------------------');
         fs.renameSync(fullOldPath, fullNewPath);
 
         if (subExists) {
