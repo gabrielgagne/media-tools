@@ -13,31 +13,34 @@ const { renameSeries } = require('./rename-series');
   });
   switch (type) {
     case '1':
-      
-      const { folderPath } = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'folderPath',
-          message: `Input folder path`,
-        },
-      ]);
-      
-      let contentType = folderPath.includes('movie') ? '1' : folderPath.includes('tv') ? '1' : undefined;
-      if(!contentType) {
-        contentType =  await inquirer.prompt([
+      try {
+        const { folderPath } = await inquirer.prompt([
           {
             type: 'input',
-            name: 'askContentType',
-            message: `Movies (1) or TV (2)`,
-          }
-        ]).askContentType;
-      } 
+            name: 'folderPath',
+            message: `Input folder path`,
+          },
+        ]);
 
-      if (contentType === '1') {
-        await renameMovieFiles(folderPath)
-      }
-      if (contentType === '2') {
-        await renameSeries(folderPath)
+        let contentType = folderPath.includes('movie') ? '1' : folderPath.includes('tv') ? '2' : undefined;
+        if (!contentType) {
+          contentType = await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'askContentType',
+              message: `Movies (1) or TV (2)`,
+            }
+          ]).askContentType;
+        }
+
+        if (contentType === '1') {
+          await renameMovieFiles(folderPath)
+        }
+        if (contentType === '2') {
+          await renameSeries(folderPath)
+        }
+      } catch (error) {
+        console.error(error);
       }
       break;
     case '2':
