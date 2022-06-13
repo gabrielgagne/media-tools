@@ -13,18 +13,26 @@ const { renameSeries } = require('./rename-series');
   });
   switch (type) {
     case '1':
-      const { folderPath, contentType } = await inquirer.prompt([
+      
+      const { folderPath } = await inquirer.prompt([
         {
           type: 'input',
           name: 'folderPath',
           message: `Input folder path`,
         },
-        {
-          type: 'input',
-          name: 'contentType',
-          message: `Movies (1) or TV (2)`,
-        }
       ]);
+      
+      let contentType = folderPath.includes('movie') ? '1' : folderPath.includes('tv') ? '1' : undefined;
+      if(!contentType) {
+        contentType =  await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'askContentType',
+            message: `Movies (1) or TV (2)`,
+          }
+        ]).askContentType;
+      } 
+
       if (contentType === '1') {
         await renameMovieFiles(folderPath)
       }

@@ -9,6 +9,7 @@ const standardFolderRegex = /^(?<name>[\w\s]+).+(?<year>\(\d+\))(?<tvdbid>\s\[tv
 const episodeTagRegexes = [
   /[sS](?<season>\d+)[eE](?<episode>\d\d+)/,
   /(?<season>\d+)[xX](?<episode>\d+)/,
+  /[eE]pisode\s(?<episode>\d+)/,
   /_(?<episode>\d+)_/,
   /(?<episode>\d+)/
 ]
