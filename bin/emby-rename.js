@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 const { renameMovieFiles } = require('./rename-movies');
 const { renameSeries } = require('./rename-series');
 const { renameMkvTool } = require('./rename-mkv-tools');
+const { cleanMkv } = require('./clean-mkv');
 
 (async () => {
   const { type } = await inquirer.prompt({
@@ -12,6 +13,7 @@ const { renameMkvTool } = require('./rename-mkv-tools');
       1. Rename media files
       2. Rename sequentially by date
       3. Rename 'a (1).mkv' to a.mkv
+      4. Clean mkv of unwanted subtitle & audio track 
     `,
   });
   const { folderPath } = await inquirer.prompt([
@@ -51,6 +53,9 @@ const { renameMkvTool } = require('./rename-mkv-tools');
       break;
     case '3':
       renameMkvTool(folderPath);
+      break;
+    case '4':
+      cleanMkv(folderPath);
       break;
   }
 })()
