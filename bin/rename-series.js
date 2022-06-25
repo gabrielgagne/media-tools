@@ -11,6 +11,7 @@ const episodeTagRegexes = [
   /(?<season>\d+)[xX](?<episode>\d+)/,
   /[sS].?(?<season>\d+)\s-\s(?<episode>(\d)+)/,
   /[eE]pisode\s(?<episode>\d+)/,
+  /[eE]pisode.?(?<episode>\d+)/,
   /_(?<episode>\d+)_/,
   /(?<episode>\d+)/
 ]
