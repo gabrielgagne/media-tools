@@ -11,10 +11,8 @@ const renameMkvTool = async (folderPath) => {
       const newFileName =  path.join(folderPath, newName);
       const fileToReplaceDeletedFile =  path.join(folderPath, file.name);
       if(existing) {
-        //console.log('going to delete', newFileName)
         fs.unlinkSync(newFileName);
       }
-      // console.log('going to rename', fileToReplaceDeletedFile, newFileName);
       fs.renameSync(fileToReplaceDeletedFile, newFileName)
 
    });

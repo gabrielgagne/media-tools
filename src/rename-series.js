@@ -2,9 +2,8 @@ const fs = require('fs-extra');
 const open = require('open');
 const path = require('path');
 const inquirer = require('inquirer');
-const { removeLastSubpath, getFileExtension, getMatchingSubFile, getFileNameFromPath, getLastSubpath, padFrontZero } = require('./utils');
+const { removeLastSubpath, getFileExtension, getMatchingSubFile, getFileNameFromPath, getLastSubpath, padFrontZero, capitalize } = require('./utils');
 
-const fileExtensionRegex = /(?:\.([^.]+))?$/;
 const standardFolderRegex = /^(?<name>[\w\s]+).+(?<year>\(\d+\))(?<tvdbid>\s\[tvdbid=\d+\])?$/;
 const episodeTagRegexes = [
   /[sS](?<season>\d+)[eE](?<episode>\d\d+)/,
@@ -54,14 +53,13 @@ const getSeriesFolderRenameCfg = async (fileName) => {
       }
     ]
   );
-  const capitalizedName = name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
-  const ext = fileExtensionRegex.exec(fileName)[1];
+
   return {
     name,
     year,
     tvdbid,
     oldName: fileName,
-    newName: `${ capitalizedName } (${ year })${ tvdbid ? ` [tvdbid=${ tvdbid }]` : '' }`,
+    newName: `${ capitalize(name) } (${ year })${ tvdbid ? ` [tvdbid=${ tvdbid }]` : '' }`,
   }
 }
 
@@ -80,7 +78,7 @@ const renameSeries = async (folderPath) => {
         console.log(`${ folder.name } already up to standard`);
         continue;
       }
-      const seasonFolders = fs.readdirSync(path.join(folderPath, folder.name), { withFileTypes: true }).filter(f => f.isDirectory() && f.name.includes('Season'));
+      const seasonFolders = fs.readdirSync(path.join(folderPath, folder.name), { withFileTypes: true }).filter(f => f.isDirectory() && f.name.toLocaleLowerCase().includes('season'));
       let episodeFilesPath = [];
       for (const seasonFolder of seasonFolders) {
         const files = fs.readdirSync(path.join(folderPath, folder.name, seasonFolder.name), { withFileTypes: true }).filter(f => !f.isDirectory() && !f.name.includes('.srt'));
@@ -124,7 +122,7 @@ const renameSeries = async (folderPath) => {
           )).episodeTag;
         }
 
-        episodeRenameCfg = [...episodeRenameCfg, { oldPath: episodeFilePath, newPath: `${ removeLastSubpath(episodeFilePath) }\\${ renameCfg.name } ${ (userRequestEpisodeTag || defaultEpisodeTag).toUpperCase() }${ getFileExtension(episodeFilePath) }` }];
+        episodeRenameCfg = [...episodeRenameCfg, { oldPath: episodeFilePath, newPath: `${ removeLastSubpath(episodeFilePath) }\\${ capitalize(renameCfg.name) } ${ (userRequestEpisodeTag || defaultEpisodeTag).toUpperCase() }${ getFileExtension(episodeFilePath) }` }];
       }
 
       const fullOldPath = path.join(folderPath, folder.name);
@@ -137,7 +135,7 @@ const renameSeries = async (folderPath) => {
             type: 'input',
             name: 'confirm',
             message: `
-             Confirm rename (y/n):
+             Confirm rename (y/n) (default y):
              folder
              =>${ fullOldPath }
              =>${ fullNewPath }
@@ -150,7 +148,7 @@ const renameSeries = async (folderPath) => {
         ]
       );
 
-      if (confirm.toLowerCase() === 'y') {
+      if (confirm.toLowerCase() !== 'n') {
         for (const cfg of episodeRenameCfg) {
           fs.renameSync(cfg.oldPath, cfg.newPath);
           const oldSubPath = getMatchingSubFile(cfg.oldPath);

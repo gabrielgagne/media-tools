@@ -59,4 +59,4 @@ const cleanMkv = async (folderPath) => {
     console.error(error);
   }
 }
-module.exports = { cleanMkv }
+module.exports = { cleanMkv };

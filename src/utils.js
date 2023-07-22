@@ -28,6 +28,20 @@ const padFrontZero = (numberInString) => {
 
   return n <= 9 ? `0${ n }` : n;
 }
+
+const capitalizeFirstLetters = (str) => {
+  const arr = str.split(" ");
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+
+  }
+  return arr.join(" ");
+}
+
+const capitalize = (str) => {
+  return str.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
+}
+
 module.exports = {
   removeLastSubpath,
   replaceLastFolderName,
@@ -36,5 +50,7 @@ module.exports = {
   getFileExtension,
   getFileNameFromPath,
   getLastSubpath,
-  padFrontZero
+  padFrontZero,
+  capitalizeFirstLetters,
+  capitalize
 }

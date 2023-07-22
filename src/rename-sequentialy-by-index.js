@@ -10,6 +10,8 @@ const renameSequentiallyByIndex = async (folderPath) => {
     const newName = path.join(folderPath, `${index} ${file.name}`);
     if(index !== -1) {
       fs.renameSync(oldName, newName);
+    } else {
+      console.log(oldName);
     }
   }
 
@@ -31,7 +33,7 @@ const ArrayOfTitles = [
   "Dawn of the Dead - re:View",
   "Land of the Dead and The Social Commentary of George Romero - re:View",
   "True Stories - re:View",
-  "Starship Troopers - re:View",
+  "Starship Troopers re:View",
   "Horse Ninja - re:View",
   "Demolition Man - re:View",
   "The Mist - re:View",
@@ -96,7 +98,7 @@ const ArrayOfTitles = [
   "Event Horizon - re:View",
   "Spacehunter: Adventures in the Forbidden Zone - re:View",
   "Bram Stoker's Dracula - re:View",
-  "Our Least Viewed Episode Ever.",
+  "Our Least Viewed Episode Ever",
   "Ice Pirates - re:View",
   "Ranking Every John Carpenter Movie (part 1 of 3) - re:View",
   "Ranking Every John Carpenter Movie (part 2 of 3) - re:View",

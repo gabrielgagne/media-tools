@@ -1,14 +1,14 @@
 {
-  "name": "emby-rename",
+  "name": "media-tools",
   "version": "1.0.0",
-  "description": "Util to rename media files",
+  "description": "Util to manage media files",
   "scripts": {
     "build": "echo \"Nothing to build\"",
     "ci": "echo \"Nothing to build or test\"",
-    "start": "npm link && emby-rename"
+    "start": "npm link --force && media-tools"
   },
   "bin": {
-    "emby-rename": "bin/emby-rename.js"
+    "media-tools": "bin/media-tools.js"
   },
   "author": "gabriel.gagne@wolterskluwer.com",
   "keywords": [

@@ -79,7 +79,7 @@ const renameMovieFiles = async (folderPath, renameParent = false) => {
             type: 'input',
             name: 'confirm',
             message: `
-             Confirm rename (y/n):
+             Confirm rename (y/n) (default y):
              File
              =>${ fullOldPath }
              =>${ fullNewPath }
@@ -98,8 +98,7 @@ const renameMovieFiles = async (folderPath, renameParent = false) => {
         ]
       );
 
-      if (confirm.toLowerCase() === 'y') {
-        // tslint:disable-next-line
+      if (confirm.toLowerCase() !== 'n') {
         console.log(fullOldPath);
         console.log('------------------------');
         console.log(fullNewPath);
