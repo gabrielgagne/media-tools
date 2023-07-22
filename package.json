@@ -10,11 +10,11 @@
   "bin": {
     "media-tools": "bin/media-tools.js"
   },
-  "author": "gabriel.gagne@wolterskluwer.com",
+  "author": "g_abriel10@hotmail.com",
   "keywords": [
-    "cumulus",
-    "iFirmTax",
-    "iFirm"
+    "emby",
+    "ffmpeg",
+    "media"
   ],
   "dependencies": {
     "fs-extra": "^10.1.0",
