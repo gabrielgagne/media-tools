@@ -67,7 +67,7 @@ const renameSeries = async (folderPath) => {
   try {
     const allFiles = fs.readdirSync(folderPath, { withFileTypes: true })
     const folders = allFiles.filter(f => f.isDirectory());
-    const files = allFiles.filter(f => !f.isDirectory()).filter(f => !f.name.endsWith('.srt'));
+    const files = allFiles.filter(f => !f.isDirectory()).filter(f => !f.name.endsWith('.srt') && !f.name.endsWith('.idx') && !f.name.endsWith('.sub'));
     if (files.length > 0) {
       console.error(`This should be run in the folder container the folder of all your series. Ex: c:\\media\\tv\\. Which would contain c:\\media\\tv\\Sopranos\\Season 1, c:\\media\\tv\\Barry\\Season 2`)
     }
@@ -81,7 +81,7 @@ const renameSeries = async (folderPath) => {
       const seasonFolders = fs.readdirSync(path.join(folderPath, folder.name), { withFileTypes: true }).filter(f => f.isDirectory() && f.name.toLocaleLowerCase().includes('season'));
       let episodeFilesPath = [];
       for (const seasonFolder of seasonFolders) {
-        const files = fs.readdirSync(path.join(folderPath, folder.name, seasonFolder.name), { withFileTypes: true }).filter(f => !f.isDirectory() && !f.name.includes('.srt'));
+        const files = fs.readdirSync(path.join(folderPath, folder.name, seasonFolder.name), { withFileTypes: true }).filter(f => !f.isDirectory() && !f.name.includes('.srt') && !f.name.endsWith('.idx') && !f.name.endsWith('.sub'));
         episodeFilesPath = [...episodeFilesPath, ...files.map(f => path.join(folderPath, folder.name, seasonFolder.name, f.name))];
       }
 
@@ -151,12 +151,14 @@ const renameSeries = async (folderPath) => {
       if (confirm.toLowerCase() !== 'n') {
         for (const cfg of episodeRenameCfg) {
           fs.renameSync(cfg.oldPath, cfg.newPath);
-          const oldSubPath = getMatchingSubFile(cfg.oldPath);
-          const subExists = fs.existsSync(oldSubPath);
-          const newSubPath = getMatchingSubFile(cfg.newPath);
-          if (subExists) {
-            fs.renameSync(oldSubPath, newSubPath);
-          }
+          ['srt', 'sub', 'idx'].forEach((subFileType) => {
+            const oldSubPath = getMatchingSubFile(cfg.oldPath, subFileType);
+            const subExists = fs.existsSync(oldSubPath);
+            const newSubPath = getMatchingSubFile(cfg.newPath, subFileType);
+            if (subExists) {
+              fs.renameSync(oldSubPath, newSubPath);
+            }
+          })
         }
         fs.renameSync(fullOldPath, fullNewPath);
       }

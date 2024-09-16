@@ -4,6 +4,7 @@ const { renameMovieFiles } = require('./rename-movies');
 const { renameSeries } = require('./rename-series');
 const { renameMkvTool } = require('./rename-mkv-tools');
 const { cleanMkv } = require('./clean-mkv');
+const { youtubeDl } = require('./youtube-dl');
 const { renameSequentiallyByIndex } = require('./rename-sequentialy-by-index');
 const cfg = require('./cfg.json');
 
@@ -47,6 +48,7 @@ const main = async () => {
       2. Rename sequentially by index in array
       3. Rename 'a (1).mkv' to a.mkv
       4. Clean mkv of unwanted subtitle & audio track 
+      5. Youtube dl
     `,
   });
 
@@ -75,6 +77,9 @@ const main = async () => {
       break;
     case '4':
       cleanMkv(await getFolderPath());
+      break;
+    case '5':
+      await youtubeDl();
       break;
   }
 }
