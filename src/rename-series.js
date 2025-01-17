@@ -6,7 +6,7 @@ const { removeLastSubpath, getFileExtension, getMatchingSubFile, getFileNameFrom
 
 const standardFolderRegex = /^(?<name>[\w\s]+).+(?<year>\(\d+\))(?<tvdbid>\s\[tvdbid=\d+\])?$/;
 const episodeTagRegexes = [
-  /[sS](?<season>\d+)[eE](?<episode>\d\d+)/,
+  /[sS](?<season>\d+)\s?[eE](?<episode>\d\d+)/,
   /(?<season>\d+)[xX](?<episode>\d+)/,
   /[sS].?(?<season>\d+)\s-\s(?<episode>(\d)+)/,
   /[eE]pisode\s(?<episode>\d+)/,
